@@ -1,0 +1,18 @@
+label.error {
+    font-size: 10px;
+    color: red;
+    position: absolute;
+    left: 16px;
+    bottom: -22px;
+}
+.form-group {
+    position: relative;
+    margin-bottom: 30px;
+}
+input[type="text"],
+input[type="password"],
+textarea {
+    font-size: 14px;
+    padding: 14px;
+    color: #222;
+}
