@@ -8,4 +8,11 @@ $(document).ready(function() {
     });
 
     $(".validate").validate();
+
+    $(".btn-nota").click(function() {
+    	$(".btn-nota").removeClass("btn-primary");
+    	$(this).addClass("btn-primary");
+    	$(".btn-salvar-nota").fadeIn(200);
+    	$("#MessageRatingRating").val($(this).text());
+    });
 });

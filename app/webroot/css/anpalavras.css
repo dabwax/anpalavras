@@ -16,3 +16,31 @@ textarea {
     padding: 14px;
     color: #222;
 }
+.anuncio {
+    display: inline-block;
+    width: 100%;
+    background: red;
+    height: 60px;
+    line-height: 40px;
+    text-align: center;
+    color: #FFF;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 32px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    text-decoration: none !important;
+}
+.anuncio1 {
+    background: #F1A9A0;
+    color: #F64747;
+}
+.anuncio2 {
+    background: #BE90D4;
+    color: #9A12B3 !important;
+}
+.anuncio3 {
+    background: #C5EFF7;
+    color: #3498DB !important;
+}

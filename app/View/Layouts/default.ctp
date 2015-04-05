@@ -22,8 +22,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <head>
     <?php echo $this->Html->charset(); ?>
     <title>
-        <?php echo $cakeDescription ?>:
-        <?php echo $this->fetch('title'); ?>
+        Amor nas Palavras
     </title>
     <?php
         echo $this->Html->meta('icon');
@@ -56,14 +55,23 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Amor nas Palavras</a>
+      <a class="navbar-brand" href="<?php echo $this->Html->url('/'); ?>">Amor nas Palavras</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
+        <?php  if(AuthComponent::user()) { ?>
+        <li <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'edit') : ?>class="active"<?php endif; ?>><a href="<?php echo $this->Html->url( array('controller' => 'users', 'action' => 'edit') ); ?>">Perfil</a></li>
+        <li <?php if($this->params['controller'] == 'messages' && $this->params['action'] == 'history') : ?>class="active"<?php endif; ?>><a href="<?php echo $this->Html->url( array('controller' => 'messages', 'action' => 'history') ); ?>">Seu Histórico</a></li>
+        <li <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'dashboard') : ?>class="active"<?php endif; ?>><a href="<?php echo $this->Html->url( array('controller' => 'users', 'action' => 'dashboard') ); ?>">Mensagem do Dia</a></li>
+        <li <?php if($this->params['controller'] == 'posts' && $this->params['action'] == 'index') : ?>class="active"<?php endif; ?>><a href="<?php echo $this->Html->url( array('controller' => 'posts', 'action' => 'index') ); ?>">News Feed</a></li>
+        <li <?php if($this->params['controller'] == 'contacts' && $this->params['action'] == 'add') : ?>class="active"<?php endif; ?>><a href="<?php echo $this->Html->url( array('controller' => 'contacts', 'action' => 'add') ); ?>">Fale Conosco</a></li>
+        <li <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'logout') : ?>class="active"<?php endif; ?>><a href="<?php echo $this->Html->url( array('controller' => 'users', 'action' => 'logout') ); ?>">Sair</a></li>
+        <?php } else { ?>
         <li <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'login') : ?>class="active"<?php endif; ?>><a href="<?php echo $this->Html->url( array('controller' => 'users', 'action' => 'login') ); ?>">Entrar</a></li>
         <li <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'add') : ?>class="active"<?php endif; ?>><a href="<?php echo $this->Html->url( array('controller' => 'users', 'action' => 'add') ); ?>">Fazer Cadastro</a></li>
+        <?php } ?>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -71,7 +79,12 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 </nav>
 
 <div class="container">
-    
+        
+        <div class="row">
+                <a href="#" class="col-md-12 anuncio anuncio<?php echo rand(1, 3); ?>">
+                    Anuncie Aqui
+                </a>
+        </div>
             <?php echo $this->Session->flash(); ?>
 
             <?php echo $this->fetch('content'); ?>

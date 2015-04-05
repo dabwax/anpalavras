@@ -8,7 +8,7 @@
 
 		<div class="row">
 			<div class="col-md-6">
-				<?php echo $this->Form->input("username", array('div' => 'form-group', 'class' => 'form-control', 'label' => 'Usuário (ou e-mail)') ); ?>
+				<?php echo $this->Form->input("username", array('div' => 'form-group', 'class' => 'form-control', 'label' => 'E-mail') ); ?>
 			</div>
 			<div class="col-md-6">
 				<?php echo $this->Form->input("password", array('div' => 'form-group', 'class' => 'form-control', 'label' => 'Senha') ); ?>

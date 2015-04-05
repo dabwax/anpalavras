@@ -4,7 +4,7 @@
 		<legend><?php echo __('Faça seu cadastro agora!'); ?></legend>
 	<?php
 		echo $this->Form->input('name', array('div' => 'form-group col-md-6', 'class' => 'form-control required', 'label' => 'Nome') );
-		echo $this->Form->input('username', array('div' => 'form-group col-md-6', 'class' => 'form-control required', 'label' => 'Usuário (ou e-mail)') );
+		echo $this->Form->input('username', array('div' => 'form-group col-md-6', 'class' => 'form-control required', 'label' => 'E-mail') );
 		echo $this->Form->input('password', array('div' => 'form-group col-md-6', 'class' => 'form-control required', 'label' => 'Senha') );
 		echo $this->Form->input('date_of_birth', array('div' => 'form-group col-md-6', 'class' => 'form-control datepicker required', 'label' => 'Data de Aniversário', 'type' => 'text') );
 		echo $this->Form->input('church_id', array('div' => 'form-group col-md-6', 'class' => 'form-control required', 'label' => 'Igreja que você pertence', 'empty' => 'Selecionar') );

@@ -9,6 +9,11 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('add', 'login', 'logout');
+    }
+
 /**
  * Components
  *
@@ -30,22 +35,49 @@ class UsersController extends AppController {
  * Página de acesso do site.
  */
     public function login() {
+        if ($this->request->is('post')) {
+            if ($this->Auth->login()) {
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+                $this->Session->setFlash(__('Usuário e/ou senha inválidos. Tente novamente.'), 'alert', array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-danger'
+                ));
+        }
 
+        if(AuthComponent::user()) {
+            return $this->redirect( array('action' => 'dashboard') );
+        }
+    }
+
+    public function logout() {
+        return $this->redirect($this->Auth->logout());
     }
 
 /**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
+ * Página inicial do usuário.
  */
-    public function view($id = null) {
-        if (!$this->User->exists($id)) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-        $this->set('user', $this->User->find('first', $options));
+    public function dashboard() {
+        $this->loadModel("Message");
+        
+        $options = array(
+            'conditions' => array(
+                'Message.church_id' => AuthComponent::user('church_id')
+            ),
+            'order' => array(
+                'Message.created DESC'
+            ),
+            'contain' => array(
+                'MessageRating' => array(
+                    'conditions' => array(
+                        'MessageRating.user_id' => AuthComponent::user("id")
+                    )
+                )
+            )
+        );
+        $mensagem_do_dia = $this->Message->find("first", $options);
+
+        $this->set(compact("mensagem_do_dia"));
     }
 
 /**
@@ -57,10 +89,16 @@ class UsersController extends AppController {
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                $this->Session->setFlash(__('Olá, ' . $this->request->data['User']['name'] . '! Seja bem-vindo ao Amor nas Palavras!'), 'alert', array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-success'
+                ));
+                return $this->redirect(array('action' => 'dashboard'));
             } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('Não foi possível cadastrar você. Confira os dados preenchidos abaixo:'), 'alert', array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-danger'
+                ));
             }
         }
 
@@ -76,21 +114,32 @@ class UsersController extends AppController {
  * @param string $id
  * @return void
  */
-    public function edit($id = null) {
+    public function edit() {
+        $id = AuthComponent::user('id');
+        
         if (!$this->User->exists($id)) {
             throw new NotFoundException(__('Invalid user'));
         }
         if ($this->request->is(array('post', 'put'))) {
             if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                $this->Session->setFlash(__('Seus dados foram alterados com sucesso!'), 'alert', array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-success'
+                ));
+                return $this->redirect(array('action' => 'dashboard'));
             } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('Não foi possível alterar seus dados. Tente novamente:'), 'alert', array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-danger'
+                ));
             }
         } else {
             $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
             $this->request->data = $this->User->find('first', $options);
         }
+        $churches = $this->User->Church->find("list");
+
+        $this->set(compact("churches"));
     }
 
 /**
