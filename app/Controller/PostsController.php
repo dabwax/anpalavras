@@ -14,4 +14,16 @@ class PostsController extends AppController {
 
         $this->set(compact("posts"));
     }
+
+    public function view($id = null) {
+        $options = array(
+            'conditions' => array(
+                'Post.id' => $id
+            )
+        );
+
+        $post = $this->Post->find("first", $options);
+        
+        $this->set(compact("post"));
+    }
 }

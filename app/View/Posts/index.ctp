@@ -8,11 +8,13 @@
                         <ul class="list-group">
                             <?php foreach($posts as $m) : ?>
                           <li class="list-group-item">
+                            <a href="<?php echo $this->Html->url( array('action' => 'view', $m['Post']['id']) ); ?>">
                             <span class="badge pull-left"><?php $dateTime = new DateTime($m['Post']['created']); echo $dateTime->format("d/m/Y"); ?> <?php if($dateTime->format("Y-m-d") == date("Y-m-d")) : ?>Hoje<?php endif; ?></span>
                             <div class="clearfix"></div>
                             <strong>Título</strong> <?php echo $m['Post']['title']; ?>
                             <div class="clearfix"></div>
                             <strong>Conteúdo</strong> <?php echo $m['Post']['content']; ?> <br>
+                            </a>
                           </li>
                         <?php endforeach; ?>
                         </ul>

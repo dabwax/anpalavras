@@ -10,6 +10,11 @@
                           <li class="list-group-item">
                             <span class="badge pull-left"><?php $dateTime = new DateTime($m['Message']['created']); echo $dateTime->format("d/m/Y"); ?> <?php if($dateTime->format("Y-m-d") == date("Y-m-d")) : ?>Hoje<?php endif; ?></span>
                             <?php echo $m['Message']['message']; ?> <abbr ><?php echo $m['Message']['author']; ?></abbr>
+
+                            <?php if(!empty($m['MessageRating'])) : ?>
+                            <div class="clearfix"></div>
+                            <em>Sua nota foi <?php echo $m['MessageRating']['rating']; ?></em>
+                        <?php endif; ?>
                           </li>
                         <?php endforeach; ?>
                         </ul>

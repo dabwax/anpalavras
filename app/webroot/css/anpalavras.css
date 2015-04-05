@@ -1,5 +1,5 @@
-label.error {
-    font-size: 10px;
+label.error, div.error-message {
+    font-size: 11px;
     color: red;
     position: absolute;
     left: 16px;

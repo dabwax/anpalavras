@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Users Controller
  *
@@ -89,10 +90,26 @@ class UsersController extends AppController {
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
+
+                $Email = new CakeEmail('default');
+    $Email->template('seja_bem_vindo')
+        ->emailFormat('html')
+        ->to($this->request->data['User']['username'])
+        ->from('no-reply@amornaspalavras.com.br')
+        ->subject('[Amor nas Palavras] Seja Bem Vindo, ' . $this->request->data['User']['name'])
+        ->viewVars(array('c' => $this->request->data))
+        ->send();
+
                 $this->Session->setFlash(__('Olá, ' . $this->request->data['User']['name'] . '! Seja bem-vindo ao Amor nas Palavras!'), 'alert', array(
                     'plugin' => 'BoostCake',
                     'class' => 'alert-success'
                 ));
+
+                $id = $this->User->getInsertID();
+                $user = $this->User->findById($id);
+                $user = $user['User'];
+                $this->Auth->login($user);
+
                 return $this->redirect(array('action' => 'dashboard'));
             } else {
                 $this->Session->setFlash(__('Não foi possível cadastrar você. Confira os dados preenchidos abaixo:'), 'alert', array(

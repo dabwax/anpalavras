@@ -8,6 +8,13 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 class User extends AppModel {
 	public $belongsTo = array("Church");
 
+	public $validate = array(
+    'username' => array(
+        'rule' => 'isUnique',
+        'message' => 'Já existe um usuário com este e-mail.'
+    )
+);
+
 /**
  * Display field
  *

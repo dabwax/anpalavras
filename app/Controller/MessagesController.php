@@ -8,6 +8,13 @@ class MessagesController extends AppController {
             ),
             'order' => array(
                 'Message.created DESC'
+            ),
+            'contain' => array(
+                'MessageRating' => array(
+                    'conditions' => array(
+                        'MessageRating.user_id' => AuthComponent::user('id')
+                    )
+                )
             )
         );
         $messages = $this->Message->find("all", $options);
