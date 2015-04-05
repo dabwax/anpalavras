@@ -36,12 +36,19 @@ class AppController extends Controller {
         'Session',
             'Auth' => array(
                 'loginRedirect' => array(
-                'controller' => 'users',
-                'action' => 'dashboard'
-            ),
+                    'controller' => 'users',
+                    'action' => 'dashboard',
+                    'admin' => false
+                 ),
+                'loginAction' => array(
+                    'controller' => 'users',
+                    'action' => 'login',
+                    'admin' => false
+                 ),
             'logoutRedirect' => array(
                 'controller' => 'users',
                 'action' => 'login',
+                'admin' => false
             ),
             'authenticate' => array(
                 'Form' => array(
@@ -52,7 +59,9 @@ class AppController extends Controller {
     );
 
     public function beforeFilter() {
-        #$this->Auth->allow('index', 'view');
+        if(AuthComponent::user('role') == 'admin') {
+            $this->layout = "admin";
+        }
     }
 
 }

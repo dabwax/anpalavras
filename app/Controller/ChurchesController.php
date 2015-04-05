@@ -20,24 +20,8 @@ class ChurchesController extends AppController {
  *
  * @return void
  */
-	public function index() {
-		$this->Church->recursive = 0;
-		$this->set('churches', $this->Paginator->paginate());
-	}
-
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->Church->exists($id)) {
-			throw new NotFoundException(__('Invalid church'));
-		}
-		$options = array('conditions' => array('Church.' . $this->Church->primaryKey => $id));
-		$this->set('church', $this->Church->find('first', $options));
+	public function admin_index() {
+		$this->set('churches', $this->Church->find("all"));
 	}
 
 /**
@@ -45,7 +29,7 @@ class ChurchesController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Church->create();
 			if ($this->Church->save($this->request->data)) {
@@ -64,7 +48,7 @@ class ChurchesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->Church->exists($id)) {
 			throw new NotFoundException(__('Invalid church'));
 		}
@@ -88,7 +72,7 @@ class ChurchesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->Church->id = $id;
 		if (!$this->Church->exists()) {
 			throw new NotFoundException(__('Invalid church'));

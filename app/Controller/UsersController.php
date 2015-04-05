@@ -27,9 +27,8 @@ class UsersController extends AppController {
  *
  * @return void
  */
-    public function index() {
-        $this->User->recursive = 0;
-        $this->set('users', $this->Paginator->paginate());
+    public function admin_index() {
+        $this->set('users', $this->User->find("all"));
     }
 
 /**
@@ -53,6 +52,10 @@ class UsersController extends AppController {
 
     public function logout() {
         return $this->redirect($this->Auth->logout());
+    }
+
+    public function admin_dashboard() {
+        
     }
 
 /**
@@ -79,6 +82,10 @@ class UsersController extends AppController {
         $mensagem_do_dia = $this->Message->find("first", $options);
 
         $this->set(compact("mensagem_do_dia"));
+
+        if(AuthComponent::user('role') == 'admin') {
+            return $this->redirect( array('action' => 'dashboard', 'admin' => true) );
+        }
     }
 
 /**
